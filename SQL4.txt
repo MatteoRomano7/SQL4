@@ -1,0 +1,81 @@
+1) SELECT * FROM Impiegato WHERE Età > 29
+
+2) SELECT * FROM Impiegato WHERE Reddito_Mensile >=800.00
+
+3) SELECT * FROM Impiegato WHERE Detrazione_Fiscale = 1
+
+4) SELECT * FROM Impiegato WHERE Detrazione_Fiscale = 0 
+
+5) SELECT * FROM Impiegato WHERE Cognome LIKE 'G%' ORDER BY Cognome;
+
+6) SELECT COUNT(*) FROM IMPIEGATO;
+
+7) SELECT SUM(Reddito_Mensile) FROM IMPIEGATO;
+
+8) SELECT AVG(Reddito_Mensile) FROM IMPIEGATO;
+
+9) SELECT MAX(Reddito_Mensile) FROM IMPIEGATO;
+ 
+10) SELECT MIN(Reddito_Mensile) FROM IMPIEGATO;
+
+11) SELECT *FROM IMPIEGO WHERE Data_Assunzione BETWEEN '2007-01-01' AND '2008-01-01';
+
+12) DECLARE @TipoImpiego NVARCHAR(50) = 'Sviluppatore';
+SELECT *
+FROM IMPIEGATO
+WHERE IDImpiegato IN (SELECT IDImpiegato FROM IMPIEGO WHERE Tipo_Impiego = @TipoImpiego);
+
+13) SELECT AVG(Età) AS Età_Media
+FROM IMPIEGATO;
+
+
+
+
+(Memorizza Impiegato)
+CREATE PROCEDURE MemorizzaImpiegato
+    @Nome NVARCHAR(50),
+    @Cognome NVARCHAR(50),
+    @Codice_Fiscale NVARCHAR(16),
+    @Età INT,
+    @Reddito_Mensile DECIMAL(10, 2),
+    @Detrazione_Fiscale BIT
+AS
+BEGIN
+    INSERT INTO IMPIEGATO (Nome, Cognome, Codice_Fiscale, Età, Reddito_Mensile, Detrazione_Fiscale)
+    VALUES (@Nome, @Cognome, @Codice_Fiscale, @Età, @Reddito_Mensile, @Detrazione_Fiscale);
+END;
+
+
+
+(Aggiorna impiegato)
+CREATE PROCEDURE AggiornaImpiegato
+    @IDImpiegato INT,
+    @Nome NVARCHAR(50),
+    @Cognome NVARCHAR(50),
+    @Codice_Fiscale NVARCHAR(16),
+    @Età INT,
+    @Reddito_Mensile DECIMAL(10, 2),
+    @Detrazione_Fiscale BIT
+AS
+BEGIN
+    UPDATE IMPIEGATO
+    SET Nome = @Nome,
+        Cognome = @Cognome,
+        Codice_Fiscale = @Codice_Fiscale,
+        Età = @Età,
+        Reddito_Mensile = @Reddito_Mensile,
+        Detrazione_Fiscale = @Detrazione_Fiscale
+    WHERE IDImpiegato = @IDImpiegato;
+END;
+
+
+(Elimina impiegato)
+
+CREATE PROCEDURE EliminaImpiegato
+    @IDImpiegato INT
+AS
+BEGIN
+    DELETE FROM IMPIEGATO
+    WHERE IDImpiegato = @IDImpiegato;
+END;
+
